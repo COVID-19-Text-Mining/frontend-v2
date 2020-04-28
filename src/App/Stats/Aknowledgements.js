@@ -1,14 +1,6 @@
 import React from 'react';
-import {
-  Container,
-  Header,
-  Divider,
-  Grid,
-  Item,
-  GridRow
-} from 'semantic-ui-react';
+import { Container, Header, Divider, Item } from 'semantic-ui-react';
 import { Box } from 'rebass';
-import Link from '../shared/components/Link';
 
 export default function Aknowledgements() {
   return (

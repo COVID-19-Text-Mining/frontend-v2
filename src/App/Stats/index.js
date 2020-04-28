@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Card, Header, ItemContent } from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { Box } from 'rebass';
 import NavMenu from 'App/shared/components/NavMenu';
