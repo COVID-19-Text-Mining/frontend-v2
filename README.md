@@ -3,7 +3,7 @@
 # COVIDScholar.org
 This is the __frontend__ of [COVIDScholar](https://www.covidscholar.org).
 
-### Aknowledgements 
+### Acknowledgements 
 
 #### Semantic Scholar
 COVIDScholar uses text data from the [COVID-19 Open Research Dataset](https://www.semanticscholar.org/cord19/download), made avaiable by Semantic Scholar. 

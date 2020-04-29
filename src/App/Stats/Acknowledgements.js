@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Header, Divider, Item } from 'semantic-ui-react';
 import { Box } from 'rebass';
 
-export default function Aknowledgements() {
+export default function Acknowledgements() {
   return (
     <Container>
       <Divider />
