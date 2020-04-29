@@ -241,7 +241,8 @@ function Search() {
   query.set('hits', 10);
 
   const { loading, response, error } = Get(
-    '/search/?' + query.toString()
+    'https://db-vespa.vespa-spin.dev-cattle.stable.spin.nersc.org:55025/search/' +
+      query.toString()
   ).state();
   const [grouping, setGrouping] = useState();
 

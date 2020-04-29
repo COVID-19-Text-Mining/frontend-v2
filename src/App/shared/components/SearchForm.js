@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
-import { Button, Form, Icon, Input, Modal } from 'semantic-ui-react';
-import Link from './Link';
-import { shuffle } from 'lodash';
+import { Form, Icon } from 'semantic-ui-react';
+import Autosuggest from 'react-autosuggest';
+import { Subject } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 const StyledSearchForm = styled(Form)`
   &&& {
@@ -15,132 +16,90 @@ const StyledSearchForm = styled(Form)`
   }
 `;
 
-function pinkCodeLink(code) {
-  return (
-    <Link to={`/search?query=${code.replace('+', '%2B')}`}>
-      <code style={{ color: 'lightcoral' }}>{code}</code>
-    </Link>
-  );
-}
-
-const StyledFakeButton = styled.a`
-  && {
-    cursor: pointer;
-    text-decoration: underline;
-    color: #2b8182 !important;
-  }
-
-  &&:hover {
-    color: #1b4b4c !important;
-  }
-`;
-
-function SearchSyntaxModal() {
-  return (
-    <Modal
-      trigger={<StyledFakeButton>Search Syntax</StyledFakeButton>}
-      closeIcon
-    >
-      <Modal.Header>COVIDScholar Search Syntax</Modal.Header>
-      <Modal.Content>
-        <ul>
-          <li>
-            <div> Use quotes to search for a specivid multi-word phrase.</div>
-            <div className="center-block">
-              {' '}
-              e.g. {pinkCodeLink('"spike protein"')}
-            </div>
-          </li>
-          <li>
-            <div>
-              {' '}
-              Use <code>+query_term</code> to specify that the result must
-              include the term and -query_term for must not.
-            </div>
-            <div className="center-block">
-              {' '}
-              e.g. {pinkCodeLink('+coronavirus -COVID-19')}
-            </div>
-          </li>
-          <li>
-            <div>
-              {' '}
-              Use {pinkCodeLink('()')} to specify OR, matches any of the terms
-              inside.
-            </div>
-            <div>
-              {' '}
-              e.g.{' '}
-              {pinkCodeLink(
-                'symptoms +(COVID-19 SARS-COV-2 "novel coronavirus")'
-              )}
-            </div>
-          </li>
-          <li>
-            <div> To search specific fields use fieldname:query_term.</div>
-            <div className="center-block">
-              {' '}
-              e.g. {pinkCodeLink('title:"ACE2 inhibitor" tag:Treatment')}
-            </div>
-          </li>
-        </ul>
-      </Modal.Content>
-    </Modal>
-  );
-}
-
-const sampleQueries = [
-  '+covid-19 +temperature impact on viral transmission',
-  'basic reproduction numbers for covid-19 in +"California"',
-  'grocery store worker infection rates',
-  '+title:"reproduction number" +abstract:MERS',
-  'Clinical trial data of COVID-19 in +("China" "Europe")',
-  '+("SARS-COV-2" "coronavirus 2" "novel coronavirus")',
-  '+("spike protein" "(S) protein" "S protein") +ACE2 +(covid-19 coronavirus)'
-];
-
-function SearchForm({ onSearch, query = '', show_button = false }) {
+function SearchForm({ onSearch, query = '' }) {
   const [currentQuery, setCurrentQuery] = useState(query);
+  const [suggestions, setSuggestions] = useState([]);
+  const trigger = useRef(new Subject());
+  const isMounted = useRef(false);
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  });
+
+  useEffect(() => {
+    const subscription = trigger.current
+      .pipe(
+        switchMap(v =>
+          fetch(`https://scholar.google.com/scholar_complete?q=${v}`).then(r =>
+            r.json()
+          )
+        )
+      )
+      .subscribe(({ l }) => {
+        if (!l) {
+          console.warn('response is null');
+        } else {
+          isMounted.current && setSuggestions(l); // component can be unmounted when the request is done
+        }
+      });
+    return () => subscription.unsubscribe();
+  }, []);
+
   useEffect(() => {
     if (query !== currentQuery) setCurrentQuery(query);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
   const handleSearch = () => onSearch({ query: currentQuery });
+  const onChange = (e, { newValue }) => setCurrentQuery(newValue);
 
-  let input_obj = {};
+  const inputProps = {
+    value: currentQuery,
+    onChange
+  };
+  const onSuggestionsFetchRequested = ({ value }) => {
+    trigger.current.next(value);
+  };
+
+  const onSuggestionsClearRequested = () => setSuggestions([]);
+
+  // I've intended to use this, but it looses the focus
+  // https://github.com/artsy/reaction/blob/c58f6407a00393dbd3940a401c82d1e470a692b1/src/Components/Search/SearchBar.tsx#L319
+  const CustomInput = React.forwardRef((props, ref) => {
+    return (
+      <Form.Field
+        icon={<Icon name="search" link onClick={handleSearch} />}
+        className="input"
+      >
+        <input {...props} className="input" ref={ref} placeholder="Search..." />
+      </Form.Field>
+    );
+  });
 
   return (
-    <>
-      <StyledSearchForm onSubmit={handleSearch}>
-        <Input
-          fluid
-          icon={<Icon name="search" link onClick={handleSearch} />}
-          placeholder={'Search...'}
-          autoFocus={true}
-          className="input"
-          onChange={(e, { value }) => setCurrentQuery(value)}
-          ref={ref => (input_obj.input = ref)}
-          value={currentQuery}
-        />
-      </StyledSearchForm>
-      {show_button ? (
-        <>
-          <Button
-            onClick={() => {
-              setCurrentQuery(shuffle(sampleQueries)[0]);
-              input_obj.input.focus();
-            }}
-          >
-            Example
-          </Button>
-          &nbsp;
-          {SearchSyntaxModal()}
-        </>
-      ) : (
-        ''
-      )}
-    </>
+    <StyledSearchForm onSubmit={handleSearch}>
+      <Autosuggest
+        suggestions={suggestions}
+        multiSection={false}
+        onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+        onSuggestionsClearRequested={onSuggestionsClearRequested}
+        renderSectionTitle={() => {}}
+        getSectionItems={() => {}}
+        getSuggestionValue={s => s}
+        inputProps={inputProps}
+        renderSuggestion={renderSuggestion}
+        renderInputComponent={props => (
+          <input {...props} className="input" placeholder="Search..." />
+        )}
+      />
+    </StyledSearchForm>
   );
+}
+
+function renderSuggestion(suggestion) {
+  return <span>{suggestion}</span>;
 }
 
 export default SearchForm;
