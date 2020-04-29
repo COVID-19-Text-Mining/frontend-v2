@@ -3,6 +3,7 @@ import { Grid } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { Box } from 'rebass';
 import NavMenu from 'App/shared/components/NavMenu';
+import Aknowledgements from './Aknowledgements';
 import EntriesStream from './EntriesStream';
 import Footer from '../shared/components/Footer';
 // import Comparison from './Comparison';
@@ -35,6 +36,7 @@ export default function Stats() {
             <EntriesStream />
           </Grid.Column>
         </Grid.Row>
+        {Aknowledgements()}
       </Grid>
       <Footer page="stats" />
     </Content>

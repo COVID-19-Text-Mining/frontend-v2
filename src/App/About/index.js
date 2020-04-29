@@ -97,6 +97,34 @@ export default function About() {
             <a href="https://ceder.berkeley.edu">Ceder</a> research groups at
             Lawrence Berkeley National Lab.
           </p>
+          <p>
+            This work is currently funded by a Laboratory Directed Research and
+            Development grant at the{' '}
+            <a
+              href="https://www.lbl.gov"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Lawrence Berkeley National Laboratory
+            </a>{' '}
+            of the US Department of Energy. It was assisted by funding for the
+            development of NLP tools in Materials Science from the{' '}
+            <a
+              href="https://energybiosciencesinstitute.org"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Energy Biosciences Institute{' '}
+            </a>{' '}
+            at UC Berkeley, and from the{' '}
+            <a
+              href="https://www.nsf.gov"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              National Science Foundation.
+            </a>
+          </p>
 
           <Header as="h2" style={{ marginTop: '10px' }}>
             Our team
