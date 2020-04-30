@@ -92,7 +92,7 @@ function SearchSyntaxModal() {
 const sampleQueries = [
   '+covid-19 +temperature impact on viral transmission',
   'basic reproduction numbers for covid-19 in +"California"',
-  'grocery store worker infection rates',
+  'healthcare worker infection rates',
   '+title:"reproduction number" +abstract:MERS',
   'Clinical trial data of COVID-19 in +("China" "Europe")',
   '+("SARS-COV-2" "coronavirus 2" "novel coronavirus")',
