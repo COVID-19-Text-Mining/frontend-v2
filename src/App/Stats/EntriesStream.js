@@ -59,20 +59,50 @@ function Mobile({ data, labels }) {
             size: 6,
             padding: 2,
             stagger: true
+          },
+          {
+            id: 'lines',
+            type: 'patternLines',
+            background: 'inherit',
+            color: '#ff6250',
+            spacing: 5,
+            linewidth: 2,
+            rotation: 0
+          },
+          {
+            id: 'dots2',
+            type: 'patternDots',
+            background: 'inherit',
+            color: '#77bb40',
+            size: 4,
+            padding: 2,
+            stagger: true
           }
         ]}
         fill={[
           {
             match: {
-              id: 'date'
+              id: 'Elsevier'
             },
             id: 'dots'
           },
           {
             match: {
-              id: 'user submission'
+              id: 'CORD-19'
             },
             id: 'squares'
+          },
+          {
+            match: {
+              id: 'Dimensions Publications'
+            },
+            id: 'lines'
+          },
+          {
+            match: {
+              id: 'LitCovid'
+            },
+            id: 'dots2'
           }
         ]}
         dotSize={8}
@@ -144,20 +174,50 @@ function Desktop({ data, labels }) {
             size: 6,
             padding: 2,
             stagger: true
+          },
+          {
+            id: 'lines',
+            type: 'patternLines',
+            background: 'inherit',
+            color: '#ff6250',
+            spacing: 5,
+            linewidth: 2,
+            rotation: 0
+          },
+          {
+            id: 'dots2',
+            type: 'patternDots',
+            background: 'inherit',
+            color: '#77bb40',
+            size: 4,
+            padding: 2,
+            stagger: true
           }
         ]}
         fill={[
           {
             match: {
-              id: 'date'
+              id: 'Elsevier'
             },
             id: 'dots'
           },
           {
             match: {
-              id: 'user submission'
+              id: 'CORD-19'
             },
             id: 'squares'
+          },
+          {
+            match: {
+              id: 'Dimensions Publications'
+            },
+            id: 'lines'
+          },
+          {
+            match: {
+              id: 'LitCovid'
+            },
+            id: 'dots2'
           }
         ]}
         dotSize={8}
