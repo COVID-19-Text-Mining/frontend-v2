@@ -36,7 +36,7 @@ const StyledFakeButton = styled.a`
   }
 `;
 
-function SearchSyntaxModal() {
+export function SearchSyntaxModal() {
   return (
     <Modal
       trigger={<StyledFakeButton>Search Syntax</StyledFakeButton>}

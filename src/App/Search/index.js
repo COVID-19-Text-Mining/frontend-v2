@@ -173,9 +173,8 @@ const AnimatedSidebar = styled.div`
   }
 `;
 
-function MobileFloatingButton({ onSearch, valuesState }) {
+function MobileFloatingButton({ onSearch, valuesState, dateRangePickerState }) {
   const [showProp, setShowProp] = useState(false);
-
   return (
     <Responsive {...Responsive.onlyMobile} style={{ zIndex: '100' }}>
       <AnimatedSidebar>
@@ -186,7 +185,11 @@ function MobileFloatingButton({ onSearch, valuesState }) {
           unmountOnExit
         >
           <FloatingSideBar>
-            <Sidebar onSearch={onSearch} {...valuesState} />
+            <Sidebar
+              onSearch={onSearch}
+              dateDropdownValue={dateRangePickerState}
+              {...valuesState}
+            />
           </FloatingSideBar>
         </CSSTransition>
       </AnimatedSidebar>
@@ -204,7 +207,7 @@ function MobileFloatingButton({ onSearch, valuesState }) {
   );
 }
 
-function DesktopSidebar({ onSearch, valuesState }) {
+function DesktopSidebar({ onSearch, dateRangePickerState, valuesState }) {
   const R = styled(Responsive)`
     && {
       width: 30%;
@@ -217,16 +220,31 @@ function DesktopSidebar({ onSearch, valuesState }) {
   `;
   return (
     <R minWidth={Responsive.onlyTablet.minWidth}>
-      <Sidebar onSearch={onSearch} {...valuesState} />
+      <Sidebar
+        onSearch={onSearch}
+        dateDropdownValue={dateRangePickerState}
+        {...valuesState}
+      />
     </R>
   );
 }
 
-function CleverSidebar({ onSearch, valuesState }) {
+function CleverSidebar({ onSearch, dateRangePickerState, valuesState }) {
+  if (dateRangePickerState.length === 0) {
+    dateRangePickerState = ['-1'];
+  }
   return (
     <>
-      <MobileFloatingButton onSearch={onSearch} valuesState={valuesState} />
-      <DesktopSidebar onSearch={onSearch} valuesState={valuesState} />
+      <MobileFloatingButton
+        onSearch={onSearch}
+        dateRangePickerState={dateRangePickerState}
+        valuesState={valuesState}
+      />
+      <DesktopSidebar
+        onSearch={onSearch}
+        dateRangePickerState={dateRangePickerState}
+        valuesState={valuesState}
+      />
     </>
   );
 }
@@ -244,7 +262,6 @@ function Search() {
     '/search/?' + query.toString()
   ).state();
   const [grouping, setGrouping] = useState();
-
   // Sort results to make sure the grouping hit is first
   const [groupingResponse, ...articles] = (
     response?.root?.children || []
@@ -271,7 +288,6 @@ function Search() {
         }));
         return obj;
       }, {});
-
   return (
     <React.Fragment>
       <Box width={1}>
@@ -279,7 +295,11 @@ function Search() {
           <NavMenu logo="show" />
         </Box>
         <ContainerSearch>
-          <CleverSidebar onSearch={onSearch} valuesState={valuesState} />
+          <CleverSidebar
+            onSearch={onSearch}
+            dateRangePickerState={searchState.date_range}
+            valuesState={valuesState}
+          />
           <div id="search_results">
             <SearchForm onSearch={onSearch} {...searchState} />
             <SearchOptions

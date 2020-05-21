@@ -83,6 +83,11 @@ const logo = (
 );
 
 const items = [
+  {
+    content: (
+      <Link to="/search?date_range=7&ranking=freshness">Newest Research</Link>
+    )
+  },
   { content: <Link to="/about">About</Link> },
   { content: <Link to="/stats">Our Data</Link> }
 ];

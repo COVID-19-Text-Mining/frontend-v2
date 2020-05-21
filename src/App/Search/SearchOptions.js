@@ -26,21 +26,13 @@ const Container = styled.div`
 // ];
 
 const rankings = [
-  // {
-  //   text: 'Vespa BM25',
-  //   value: 'bm25',
-  // },
-  // {
-  //   text: 'Vespa nativeRank',
-  //   value: 'default',
-  // },
   {
     text: 'Relevance + boost(COVID-19)',
-    value: 'bm25-covid'
+    value: 'default'
   },
   {
     text: 'Relevance',
-    value: 'default'
+    value: 'bm25'
   },
   {
     text: 'date (most recent first)',
@@ -53,6 +45,7 @@ function RelatedArticle({ id }) {
 
   const query = new URLSearchParams();
   query.set('yql', `select title from sources * where id = ${id};`);
+  console.log('query', query);
   const { loading, response, error } = Get(
     '/search/?' + query.toString()
   ).state();
@@ -73,7 +66,7 @@ function RelatedArticle({ id }) {
   );
 }
 
-function SearchOptions({ totalCount, fieldset, ranking, onSearch, relatedId }) {
+function SearchOptions({ totalCount, ranking, onSearch, relatedId }) {
   return (
     <>
       <Container>
@@ -83,18 +76,6 @@ function SearchOptions({ totalCount, fieldset, ranking, onSearch, relatedId }) {
           </>
         )}
         <span>
-          {/*Searching in{' '}*/}
-          {/*<Dropdown*/}
-          {/*  inline*/}
-          {/*  defaultValue={*/}
-          {/*    fieldsets.find(*/}
-          {/*      ({ value }, i) => fieldset === value || (!fieldset && i === 0)*/}
-          {/*    ).value*/}
-          {/*  }*/}
-          {/*  options={fieldsets.map((flds, id) => ({ id, ...flds }))}*/}
-          {/*  onChange={(event, { value }) => onSearch({ fieldset: value })}*/}
-          {/*/>*/}
-          {/*{' and sorting by '}*/}
           {'Sorting by '}
           <Dropdown
             inline

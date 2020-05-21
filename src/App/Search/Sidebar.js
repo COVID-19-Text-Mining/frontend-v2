@@ -1,16 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
+import _ from 'lodash';
 import styled from 'styled-components';
-import { Button, Checkbox, Form } from 'semantic-ui-react';
+import faker from 'faker';
+import { Button, Checkbox, Dropdown, Form } from 'semantic-ui-react';
 import { tagToColor, docTypeToColor } from 'App/Theme';
+import { SearchSyntaxModal } from 'App/shared/components/SearchForm';
 
-// const addressDefinitions = faker.definitions.address;
-// const stateOptions = _.map(addressDefinitions.state, (state, index) => ({
-//   key: addressDefinitions.state_abbr[index],
-//   text: state,
-//   value: addressDefinitions.state_abbr[index]
-// }));
+const addressDefinitions = faker.definitions.address;
+const stateOptions = _.map(addressDefinitions.state, (state, index) => ({
+  key: addressDefinitions.state_abbr[index],
+  text: state,
+  value: addressDefinitions.state_abbr[index]
+}));
 
-const filters = [
+const dateRangeOptions = [
+  { key: 'all', text: 'All Time', value: '-1' },
+  { key: '24hrs', text: 'Last 24 hours', value: '1' },
+  { key: '1week', text: 'Last week', value: '7' },
+  { key: '1month', text: 'Last month', value: '30' },
+  { key: '1yr', text: 'Last year', value: '365' }
+];
+
+const checkboxFacets = [
   {
     name: 'Specific to COVID-19',
     field: 'is_covid19',
@@ -128,7 +139,6 @@ function Checkboxes({ name, field, values, colormap, onSearch }) {
       .map(({ value: oValue }) => oValue);
     onSearch({ [field]: selected });
   };
-
   return (
     <Form.Field>
       <label>{name}</label>
@@ -149,11 +159,35 @@ function Checkboxes({ name, field, values, colormap, onSearch }) {
   );
 }
 
-function Sidebar({ onSearch, ...filterValues }) {
+function DateDropdown({ options, onSearch, defaultValue }) {
+  const [value, setValue] = useState(defaultValue);
+
+  const handleChange = value => {
+    onSearch({ date_range: value });
+    setValue(value);
+  };
+
+  return (
+    <Form.Field>
+      <label>{'Filter by Date Published'}</label>
+      <Dropdown
+        value={value}
+        defalutValue={options[0]}
+        fluid
+        selection
+        options={options}
+        onChange={(event, { value }) => handleChange(value)}
+      />
+    </Form.Field>
+  );
+}
+
+function Sidebar({ onSearch, dateDropdownValue, ...filterValues }) {
   const noneChecked =
     Object.values(filterValues)
       .flatMap(values => values.map(({ checked }) => checked))
       .find(c => c) !== true;
+
   return (
     <div id="sidebar" className="ui form">
       <div
@@ -162,17 +196,34 @@ function Sidebar({ onSearch, ...filterValues }) {
           padding: '10px'
         }}
       >
+        <div
+          style={{
+            'text-align': 'center'
+          }}
+        >
+          {SearchSyntaxModal()}
+        </div>
         <Button
           disabled={noneChecked}
           onClick={() =>
             onSearch(
-              filters.reduce((obj, { field }) => ({ ...obj, [field]: [] }), {})
+              checkboxFacets.reduce(
+                (obj, { field }) => ({ ...obj, [field]: [] }),
+                {}
+              )
             )
           }
         >
           Clear all
         </Button>
-        {filters.map(({ name, field, colormap }) => (
+        {
+          <DateDropdown
+            options={dateRangeOptions}
+            onSearch={onSearch}
+            defaultValue={dateDropdownValue[0]}
+          />
+        }
+        {checkboxFacets.map(({ name, field, colormap }) => (
           <Checkboxes
             key={field}
             name={name}
@@ -182,14 +233,6 @@ function Sidebar({ onSearch, ...filterValues }) {
             onSearch={onSearch}
           />
         ))}
-        {/*<Dropdown*/}
-        {/*  placeholder="Keywords"*/}
-        {/*  fluid*/}
-        {/*  multiple*/}
-        {/*  search*/}
-        {/*  selection*/}
-        {/*  options={stateOptions}*/}
-        {/*/>*/}
       </div>
     </div>
   );

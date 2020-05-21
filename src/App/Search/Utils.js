@@ -8,9 +8,7 @@ const select = `all(
      all(group(is_covid19) order(-count()) each(output(count())))
      all(group(tags) order(-count()) each(output(count())))
      all(group(is_preprint) order(-count()) each(output(count())))
-     all(group(journal) max(10) order(-count()) each(output(count())))
      all(group(time.year(timestamp)) max(10) order(-max(time.year(timestamp))) each(output(count())) as(year))
-     all(group(has_full_text) each(output(count())))
    )`
   .split('\n')
   .map(s => s.trim())
@@ -26,7 +24,20 @@ const orCombiner = (field, array, range = false) =>
       ')'
     : null;
 
-const timestampStartOfYearUtc = year => Date.UTC(year, 0, 1) / 1000;
+function timestampRange(days) {
+  let date = new Date();
+  date.setMilliseconds(0);
+  const now = date / 1000;
+  if (days > 0) {
+    date.setDate(date.getDate() - days);
+    date.setHours(0, 0, 0, 0);
+    const then = date / 1000;
+    return now + ';' + then;
+  } else {
+    const then = 0;
+    return now + ';' + then;
+  }
+}
 
 const generateApiQueryParams = () => {
   const {
@@ -35,25 +46,29 @@ const generateApiQueryParams = () => {
     tags,
     source_display,
     document_type,
-    year
+    year,
+    date_range
   } = getSearchState();
-  const timestampRanges = year
-    .map(y => parseInt(y))
-    .map(
-      y =>
-        timestampStartOfYearUtc(y) + ';' + (timestampStartOfYearUtc(y + 1) - 1)
-    );
+  // const timestampRanges = year
+  //   .map(y => parseInt(y))
+  //   .map(
+  //     y =>
+  //       timestampStartOfYearUtc(y) + ';' + (timestampStartOfYearUtc(y + 1) - 1)
+  //   );
+  const timestampRanges = [timestampRange(parseInt(date_range))];
+
   const filter = [
     orCombiner('is_covid19', is_covid19),
     orCombiner('is_preprint', is_preprint),
     orCombiner('document_type', document_type),
     orCombiner('tags', tags ? tags : []),
     orCombiner('source_display', source_display),
+    orCombiner('year', year),
     orCombiner('timestamp', timestampRanges, true)
   ]
     .filter(s => s)
     .join(' ');
-
+  console.log(window.location.search);
   const query = new URLSearchParams(window.location.search);
   const ranking = query.get('ranking');
   const fieldset = query.get('fieldset') || 'all';
@@ -73,7 +88,13 @@ const generateApiQueryParams = () => {
   if (ranking) query.set('ranking.profile', ranking);
   if (fieldset) query.set('model.defaultIndex', fieldset);
   query.set('select', select);
-
+  if (query.get('query') === null || query.get('query').trim().length === 0) {
+    query.set(
+      'yql',
+      `select * from sources * where timestamp > 0 AND userQuery();`
+    );
+  }
+  console.log(query.toString());
   return query;
 };
 
@@ -119,7 +140,8 @@ const getSearchState = () => {
     use_specter: urlParams.getAll('use_specter'),
     ranking: urlParams.get('ranking'),
     fieldset: urlParams.get('fieldset') || 'all',
-    relatedId: getRelatedId(urlParams)
+    relatedId: getRelatedId(urlParams),
+    date_range: urlParams.getAll('date_range')
   };
 };
 
