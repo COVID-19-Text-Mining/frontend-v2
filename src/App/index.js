@@ -10,6 +10,7 @@ import Stats from './Stats';
 import Error from 'App/shared/components/Error';
 import 'App/shared/covidscholar.css';
 import Privacy from './Privacy';
+import EmbeddingProjector from './EmbeddingProjector';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Stats path="/stats" />
         <Privacy path="/privacy" />
         <Article path="/article/:id" />
+        <EmbeddingProjector path="/word-embeddings" />
         {/*<Compound path="/compound/:id" />*/}
         <Error default />
       </Router>
