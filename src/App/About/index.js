@@ -13,7 +13,8 @@ import john_pic from './pics/john.jpg';
 import gerd_pic from './pics/GerbrandCeder.jpg';
 import kristin_pic from './pics/persson2.jpg';
 import tanjin_pic from './pics/tanjin.jpg';
-import francois_pic from './pics/francois.jpg';
+import akshay_pic from './pics/akshay.jpg';
+import ben_pic from './pics/ben.jpg';
 import { Box } from 'rebass';
 
 const ContentGrid = styled(Grid)`
@@ -223,14 +224,23 @@ export default function About() {
               pic={tanjin_pic}
             />
             <MemberCard
-              name={'Francois Chabbey'}
+              name={'Akshay Subramanian'}
               intro={
-                'Having worked on embedded and mobile applications in Switzerland, Francois moved to the Bay ' +
-                'Area and reoriented himself toward frond-end and web applications. After building various ' +
-                'BI tools and data pipeline applications with two start-ups, he decided to join the Person ' +
-                'Group at Lawrence Berkeley National Lab to build visualizations.'
+                'Akshay joined the Ceder Group at LBNL in 2020 as an undergraduate intern. ' +
+                'He is interested in the application of Machine Learning to molecular optimization ' +
+                'and Materials Science.'
               }
-              pic={francois_pic}
+              pic={akshay_pic}
+            />
+            <MemberCard
+              name={'Ben Justus'}
+              intro={
+                'Ben is a rising Junior at UC Berkeley studying materials science and engineering and ' +
+                'electrical engineering and computer science (B.S. MSE/EECS). He is also a computational ' +
+                'materials science research assistant at Lawrence Berkeley National Laboratory ' +
+                'in the Persson Group.'
+              }
+              pic={ben_pic}
             />
           </Grid>
         </Container>

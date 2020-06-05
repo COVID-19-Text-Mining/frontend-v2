@@ -7,6 +7,8 @@ import { Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import Link from './Link';
 
+const N_SUGGESTIONS = 8;
+
 const StyledSearchForm = styled(Form)`
   &&& {
     font-size: 1.1rem;
@@ -119,9 +121,7 @@ function SearchForm({ onSearch, query = '', show_button = false }) {
     const subscription = trigger.current
       .pipe(
         switchMap(v =>
-          fetch(`https://scholar.google.com/scholar_complete?q=${v}`).then(r =>
-            r.json()
-          )
+          fetch(`/api/suggest/?n=${N_SUGGESTIONS}&q=${v}`).then(r => r.json())
         )
       )
       .subscribe(({ l }) => {

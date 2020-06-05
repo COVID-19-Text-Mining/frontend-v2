@@ -15,7 +15,7 @@ const stateOptions = _.map(addressDefinitions.state, (state, index) => ({
 
 const dateRangeOptions = [
   { key: 'all', text: 'All Time', value: '-1' },
-  { key: '24hrs', text: 'Last 24 hours', value: '1' },
+  { key: '72hrs', text: 'Last 24 hours', value: '1' },
   { key: '1week', text: 'Last week', value: '7' },
   { key: '1month', text: 'Last month', value: '30' },
   { key: '1yr', text: 'Last year', value: '365' }
