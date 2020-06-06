@@ -77,6 +77,25 @@ export default function Acknowledgements() {
             <Item.Content>
               <Item.Header
                 as="a"
+                href="https://about.lens.org/covid-19/"
+                target="_blank"
+              >
+                Human Coronaviruses Data Initiative
+              </Item.Header>
+              <Item.Meta>Provided by The Lens</Item.Meta>
+              <Item.Description>
+                <p>
+                  Public dataset of COVID-19 related patents and scholarly
+                  works.
+                </p>
+              </Item.Description>
+            </Item.Content>
+          </Item>
+          <Divider />
+          <Item>
+            <Item.Content>
+              <Item.Header
+                as="a"
                 href="https://forms.gle/JZxebxCNV6n9QyfU6"
                 target="_blank"
               >
