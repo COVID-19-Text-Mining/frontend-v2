@@ -2,3 +2,5 @@
 User-agent: *
 Disallow: https://covidscholar.org/api/*
 Disallow: https://covidscholar.org/article/*
+Allow: https://covidscholar.org/about
+Allow: https://covidscholar.org/stats

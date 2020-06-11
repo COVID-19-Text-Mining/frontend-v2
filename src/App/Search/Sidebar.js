@@ -42,11 +42,11 @@ const checkboxFacets = [
     field: 'tags',
     colormap: tagToColor
   },
-  {
-    name: 'Year Published',
-    field: 'year',
-    colormap: null
-  },
+  // {
+  //   name: 'Year Published',
+  //   field: 'year',
+  //   colormap: null
+  // },
   {
     name: 'Data Source',
     field: 'source_display',
@@ -110,8 +110,8 @@ function filterOutUndesiredCheckboxes(field, value) {
     return false;
   } else if (field === 'is_covid19' && value === 'false') {
     return false;
-  } else if (field === 'is_preprint' && value === 'true') {
-    return false;
+    // } else if (field === 'is_preprint' && value === 'true') {
+    //   return false;
   } else {
     return true;
   }
@@ -120,6 +120,8 @@ function filterOutUndesiredCheckboxes(field, value) {
 function formatFacetLabel(field, value) {
   if (field === 'is_preprint' && value === 'false') {
     return 'yes';
+  } else if (field === 'is_preprint' && value === 'true') {
+    return 'no';
   } else if (field === 'is_covid19' && value === 'true') {
     return 'yes';
   } else {

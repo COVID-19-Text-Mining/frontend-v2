@@ -21,7 +21,7 @@ const StyledSearchForm = styled(Form)`
 `;
 function pinkCodeLink(code) {
   return (
-    <Link to={`/search?query=${code.replace('+', '%2B')}`}>
+    <Link to={`/search?query=${code.replace('+', '%2B').replace('"', '%22')}`}>
       <code style={{ color: 'lightcoral' }}>{code}</code>
     </Link>
   );
@@ -121,7 +121,9 @@ function SearchForm({ onSearch, query = '', show_button = false }) {
     const subscription = trigger.current
       .pipe(
         switchMap(v =>
-          fetch(`/api/suggest/?n=${N_SUGGESTIONS}&q=${v}`).then(r => r.json())
+          fetch(
+            `/api/suggest/?n=${N_SUGGESTIONS}&q=${v.replace('+"', '@@')}`
+          ).then(r => r.json())
         )
       )
       .subscribe(({ l }) => {
@@ -138,8 +140,14 @@ function SearchForm({ onSearch, query = '', show_button = false }) {
     if (query !== currentQuery) setCurrentQuery(query);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
-  const handleSearch = () => onSearch({ query: currentQuery });
-  const onChange = (e, { newValue }) => setCurrentQuery(newValue);
+
+  const handleSearch = () => {
+    onSearch({ query: currentQuery });
+  };
+
+  const onChange = (e, { newValue }) => {
+    setCurrentQuery(newValue);
+  };
 
   const inputProps = {
     value: currentQuery,
@@ -169,6 +177,13 @@ function SearchForm({ onSearch, query = '', show_button = false }) {
     );
   });
 
+  const onSuggestionSelected = (
+    event,
+    { suggestion, suggestionValue, suggestionIndex, sectionIndex, method }
+  ) => {
+    onSearch({ query: suggestionValue });
+  };
+
   return (
     <>
       <StyledSearchForm onSubmit={handleSearch}>
@@ -177,7 +192,7 @@ function SearchForm({ onSearch, query = '', show_button = false }) {
           multiSection={false}
           onSuggestionsFetchRequested={onSuggestionsFetchRequested}
           onSuggestionsClearRequested={onSuggestionsClearRequested}
-          onSuggestionSelected={handleSearch}
+          onSuggestionSelected={onSuggestionSelected}
           renderSectionTitle={() => {}}
           getSectionItems={() => {}}
           getSuggestionValue={s => s}
