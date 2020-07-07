@@ -201,6 +201,22 @@ function Article({ id }) {
     `/document/v1/covid-19/doc/docid/${id}`
   ).state();
 
+  function communicatePaperId(event) {
+    // if(event.origin.match(/https?:\/\/reviews(test)?\.covidscholar\.org\/?/)){
+    if (event.data instanceof Object && event.data.action === 'get-paper-id') {
+      event.source.postMessage({ paper_id: id }, '*');
+    }
+    // }
+  }
+
+  React.useEffect(() => {
+    window.addEventListener('message', communicatePaperId);
+
+    return () => {
+      window.removeEventListener('message', communicatePaperId);
+    };
+  });
+
   if (loading) return <Loading message="Loading..." />;
   if (error)
     return <Error message={error.message || `Failed to load article #${id}`} />;
