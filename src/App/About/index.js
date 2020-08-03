@@ -179,12 +179,13 @@ export default function About() {
             <MemberCard
               name={'Haoyan Huo'}
               intro={
-                'Haoyan joined Ceder Group at UC Berkeley as a PhD student in 2017. He is interested in ' +
-                'making computers read papers and learn how to cook materials using the knowledge mined from ' +
-                'the scientific literature knowledge base.'
+                "Haoyan is a Materials Science PhD candidate in the Ceder Group at UC Berkeley and Lawrence Berkeley " +
+                "National Lab. He obtained his bachelor's degree in Physics and Economics from Peking University in 2017. " +
+                "He is currently interested in applying NLP/IR to materials science literature, as well as automatic " +
+                "designing of materials synthesis using ML methods."
               }
               pic={haoyan_pic}
-              link={'https://github.com/hhaoyan'}
+              link={'https://haoyan-huo.com/'}
             />
             <MemberCard
               name={'Kevin Cruse'}
