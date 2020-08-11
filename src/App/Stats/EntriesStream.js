@@ -77,6 +77,33 @@ function Mobile({ data, labels }) {
             size: 4,
             padding: 2,
             stagger: true
+          },
+          {
+            id: 'squares2',
+            type: 'patternSquares',
+            background: 'inherit',
+            color: '#ffd977',
+            size: 4,
+            padding: 2,
+            stagger: true
+          },
+          {
+            id: 'lines2',
+            type: 'patternLines',
+            background: 'inherit',
+            color: '#fffc40',
+            size: 4,
+            padding: 2,
+            stagger: true
+          },
+          {
+            id: 'dots3',
+            type: 'patternLines',
+            background: 'inherit',
+            color: '#fffc40',
+            size: 4,
+            padding: 2,
+            stagger: true
           }
         ]}
         fill={[
@@ -100,9 +127,21 @@ function Mobile({ data, labels }) {
           },
           {
             match: {
-              id: 'LitCovid'
+              id: 'PubMed'
             },
             id: 'dots2'
+          },
+          {
+            match: {
+              id: 'medrxiv'
+            },
+            id: 'squares2'
+          },
+          {
+            match: {
+              id: 'Social Science Research Network'
+            },
+            id: 'dots3'
           }
         ]}
         dotSize={8}
@@ -128,7 +167,7 @@ function Desktop({ data, labels }) {
       <ResponsiveStream
         data={data}
         keys={labels}
-        margin={{ top: 50, right: 200, bottom: 50, left: 70 }}
+        margin={{ top: 50, right: 250, bottom: 50, left: 70 }}
         axisTop={null}
         axisRight={null}
         xScale={{
@@ -192,6 +231,33 @@ function Desktop({ data, labels }) {
             size: 4,
             padding: 2,
             stagger: true
+          },
+          {
+            id: 'squares2',
+            type: 'patternSquares',
+            background: 'inherit',
+            color: '#ffd977',
+            size: 4,
+            padding: 2,
+            stagger: true
+          },
+          {
+            id: 'lines2',
+            type: 'patternLines',
+            background: 'inherit',
+            color: '#fffc40',
+            size: 4,
+            padding: 2,
+            stagger: true
+          },
+          {
+            id: 'dots3',
+            type: 'patternLines',
+            background: 'inherit',
+            color: '#fffc40',
+            size: 4,
+            padding: 2,
+            stagger: true
           }
         ]}
         fill={[
@@ -215,9 +281,21 @@ function Desktop({ data, labels }) {
           },
           {
             match: {
-              id: 'LitCovid'
+              id: 'PubMed'
             },
             id: 'dots2'
+          },
+          {
+            match: {
+              id: 'medrxiv'
+            },
+            id: 'squares2'
+          },
+          {
+            match: {
+              id: 'Social Science Research Network'
+            },
+            id: 'dots3'
           }
         ]}
         dotSize={8}
@@ -233,7 +311,7 @@ function Desktop({ data, labels }) {
             direction: 'column',
             translateX: 100,
             itemWidth: 80,
-            itemHeight: 20,
+            itemHeight: 15,
             itemTextcolor: '#999999',
             symbolSize: 12,
             symbolShape: 'circle',
@@ -270,7 +348,7 @@ export default function EntriesStream() {
     );
 
   return (
-    <div style={{ height: '300px' }} className={'ui center aligned grid'}>
+    <div style={{ height: '350px' }} className={'ui center aligned grid'}>
       <Mobile data={data} labels={response.labels} />
       <Desktop data={data} labels={response.labels} />
 
