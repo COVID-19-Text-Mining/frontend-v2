@@ -16,15 +16,19 @@ import {
 const FullGrid = styled.div`
   && {
     position: absolute;
-    top: 60px;
+    top: 55px;
     left: 0;
-    height: calc(100vh - 60px) !important;
+    height: calc(100vh - 55px) !important;
     width: 100vw !important;
 
     iframe {
       border: none;
-      height: calc(100vh - 60px);
-      width: 100vw;
+      height: calc(100vh - 55px);
+      width: 80vw;
+      min-width: ${props => props.minWidth};
+      max-width: 1150px;
+      left: 50%;
+      transform: translate(-50%, 0);
     }
   }
 `;
@@ -91,7 +95,7 @@ function Desktop() {
   return (
     <Responsive minWidth={Responsive.onlyTablet.minWidth}>
       <AlphaModal />
-      <FullGrid>
+      <FullGrid minWidth={Responsive.onlyTablet.minWidth}>
         <Iframe
           url="/_embedding-projector/iframe.html"
           width="100%"
