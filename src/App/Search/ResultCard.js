@@ -211,6 +211,7 @@ function ResultCard({
     keywords,
     keywords_ml,
     link,
+    is_preprint,
     tags,
     document_type,
     citations_count_total
@@ -227,6 +228,12 @@ function ResultCard({
   keywords_ml = keywords_ml ? keywords_ml : [];
   summary_human = formatText(summary_human);
   const combined_keywords = keywords.concat(keywords_ml);
+
+  const rr_logged_in =
+    document.cookie
+      .split(';')
+      .map(i => i.replace(/^\s+|\s+$/, '').replace(/=.*$/, ''))
+      .filter(i => i === 'rr_access_token').length > 0;
 
   return (
     <StyledCard className={docTypeToColor[document_type]}>
@@ -268,13 +275,27 @@ function ResultCard({
             Search within related articles
           </FunctionLink>
         )}
-        <SummaryFixLink
-          link={link}
-          doi={doi}
-          abstract={abstract}
-          title={title}
-          message={'Submit/fix metadata'}
-        />
+        {rr_logged_in && is_preprint ? (
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            className={'float-right'}
+            href={
+              'https://reviews.covidscholar.org/#/rapidreview/stage1?paper_id=' +
+              id
+            }
+          >
+            Review on RapidReviews
+          </a>
+        ) : (
+          <SummaryFixLink
+            link={link}
+            doi={doi}
+            abstract={abstract}
+            title={title}
+            message={'Submit/fix metadata'}
+          />
+        )}
       </Card.Content>
     </StyledCard>
   );
