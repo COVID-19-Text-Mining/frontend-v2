@@ -35,6 +35,11 @@ const StyledCard = styled(Card)`
       color: #205bbc !important;
     }
 
+    a.review-link {
+      color: #6c00ba;
+      text-decoration: underline;
+    }
+
     .human-summary-submission a {
       color: #de0008;
       text-decoration: underline;
@@ -279,7 +284,7 @@ function ResultCard({
           <a
             target="_blank"
             rel="noopener noreferrer"
-            className={'float-right'}
+            className={'float-right review-link'}
             href={
               'https://reviews.covidscholar.org/#/rapidreview/stage1?paper_id=' +
               id

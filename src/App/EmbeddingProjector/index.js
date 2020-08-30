@@ -24,9 +24,9 @@ const FullGrid = styled.div`
     iframe {
       border: none;
       height: calc(100vh - 55px);
-      width: 80vw;
+      width: 90vw;
       min-width: ${props => props.minWidth};
-      max-width: 1150px;
+      max-width: 1400px;
       left: 50%;
       transform: translate(-50%, 0);
     }
@@ -49,9 +49,8 @@ export class AlphaModal extends Component {
         />
         <Modal.Content>
           <h4>
-            This interface is still in alpha testing and it may change in the
-            near future. Please send any feedback/suggestions to
-            jdagdelen@lbl.gov.
+            This interface is in beta testing and it may change in the near
+            future. Please send any feedback/suggestions to jdagdelen@lbl.gov.
           </h4>
         </Modal.Content>
         <Modal.Actions>
