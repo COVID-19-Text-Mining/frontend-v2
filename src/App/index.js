@@ -7,6 +7,7 @@ import Article from './Article';
 // import Compound from './Compound';
 import About from './About';
 import Stats from './Stats';
+import Openings from './Openings';
 import Error from 'App/shared/components/Error';
 import 'App/shared/covidscholar.css';
 import Privacy from './Privacy';
@@ -23,6 +24,7 @@ function App() {
         <Privacy path="/privacy" />
         <Article path="/article/:id" />
         <EmbeddingProjector path="/word-embeddings" />
+        <Openings path="/openings" />
         {/*<Compound path="/compound/:id" />*/}
         <Error default />
       </Router>

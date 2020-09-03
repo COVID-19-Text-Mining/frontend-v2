@@ -117,13 +117,21 @@ export default function About() {
             >
               Energy Biosciences Institute{' '}
             </a>{' '}
-            at UC Berkeley, and from the{' '}
+            at UC Berkeley, the{' '}
             <a
               href="https://www.nsf.gov"
               target="_blank"
               rel="noopener noreferrer"
             >
               National Science Foundation.
+            </a>
+            , and the{' '}
+            <a
+              href="https://c3dti.ai/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              C3.ai Digital Transformation Institute.
             </a>
           </p>
 
@@ -179,10 +187,10 @@ export default function About() {
             <MemberCard
               name={'Haoyan Huo'}
               intro={
-                "Haoyan is a Materials Science PhD candidate in the Ceder Group at UC Berkeley and Lawrence Berkeley " +
+                'Haoyan is a Materials Science PhD candidate in the Ceder Group at UC Berkeley and Lawrence Berkeley ' +
                 "National Lab. He obtained his bachelor's degree in Physics and Economics from Peking University in 2017. " +
-                "He is currently interested in applying NLP/IR to materials science literature, as well as automatic " +
-                "designing of materials synthesis using ML methods."
+                'He is currently interested in applying NLP/IR to materials science literature, as well as automatic ' +
+                'designing of materials synthesis using ML methods.'
               }
               pic={haoyan_pic}
               link={'https://haoyan-huo.com/'}
