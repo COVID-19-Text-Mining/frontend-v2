@@ -76,7 +76,7 @@ const ContentGrid = styled(Grid)`
     }
   }
 `;
-
+  
 export default function About() {
   return (
     <Box width={1}>
@@ -133,9 +133,17 @@ export default function About() {
             >
               C3.ai Digital Transformation Institute.
             </a>
+          <Header as="h2" style={{ marginTop: '10px' }}>
+            Citing
+          </Header>
+          <p>
+            If you use COVIDScholar in your research, please cite {' '}
+            <a href="https://arxiv.org/abs/2012.03891">COVIDScholar: An automated COVID-19 research aggregation and analysis platform</a>
           </p>
 
-          <Header as="h2" style={{ marginTop: '10px' }}>
+          </p>
+
+          <Header as="h3" style={{ marginTop: '10px' }}>
             Our team
           </Header>
           <Grid className={'center aligned'}>
